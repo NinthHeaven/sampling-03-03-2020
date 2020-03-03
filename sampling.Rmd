@@ -1,0 +1,29 @@
+---
+title: "sampling"
+author: "Saul Soto"
+date: "3/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(googlesheets4)
+library(tidyverse)
+library(janitor)
+```
+
+```{r coding, echo=FALSE}
+sheets_deauth()
+
+sampling_data <- read_sheet("https://docs.google.com/spreadsheets/d/14HmwN2cEVAJHupuehCuLdwG9BXtR3COrxDgaaylLhkA/edit?usp=sharing") %>%
+  clean_names() %>%
+  filter(!is.na(partners))
+
+most_red <- sampling_data %>%
+  arrange(desc(red))
+
+ggplot(most_red, aes(percent_red)) +
+  geom_histogram(bins = 20)
+```
+
+
